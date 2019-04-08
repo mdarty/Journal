@@ -15,7 +15,7 @@
 
 \usepackage[print]{booklet}
 \pagespersignature{16}
-\setlength{\textheight}{210mm}
+\setlength{\textheight}{211mm}
 \setlength{\textwidth}{130mm}
 \setlength{\headheight}{15pt}
 \setlength{\footskip}{11pt}
@@ -23,19 +23,24 @@
 \setlength{\evensidemargin}{19mm}
 \setpdftargetpages
 
-\newcommand{\numberofpages}{1}
-\newcommand{\linesperpage}{28}
+\newcommand{\numberofpages}{200}
+\newcommand{\tikzWidth}{13}
+\newcommand{\tikzHeight}{21}
+\newcommand{\stepSize}{0.5}
+
 \newcommand{\ruled}{
-        \multido{}{\linesperpage}{
-            \rule{\textwidth}{0.1pt}\\[2.16mm]
-        }
-        \rule{\textwidth}{0.1pt}
+    %I believe this is a much better way to rule the paper
+    \begin{tikzpicture}
+        \foreach \y in {0,\stepSize,...,\tikzHeight}
+        \draw[gray, very thin] (0,\y) -- (\tikzWidth,\y);
+    \end{tikzpicture}
 }
+
 \newcommand{\bullets}{
-    \begin{tikzpicture}[scale=0.5]
+    \begin{tikzpicture}
             % setup the nodes
-            \foreach \x in {0,...,26}
-            \foreach \y in {0,...,41}{
+            \foreach \x in {0,\stepSize,...,\tikzWidth}
+            \foreach \y in {0,\stepSize,...,\tikzHeight}{
                 \node[mystyle] at (\x,\y){};
             }
     \end{tikzpicture}
@@ -43,14 +48,14 @@
 
 \newcommand{\grid}{
     \begin{tikzpicture}
-        \draw[step=5mm,gray,very thin] (0,0) grid (13,20.5);
+        \draw[step=\stepSize,gray,very thin] (0,0) grid (\tikzWidth, \tikzHeight);
     \end{tikzpicture}
 }
 
 \begin{document}
     \multido{}{\numberofpages}{
-        %\rulled
+        \ruled
         %\grid
-        \bullets
+        %\bullets
     }
 \end{document}
